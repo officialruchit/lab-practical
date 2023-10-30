@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html ng-app="itemApp">
+<head>
+    <title>Item Management App</title>
+    <link rel="stylesheet" href="css/styles.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.7.9/angular.min.js"></script>
+    <script src="js/app.js"></script>
+</head>
+<body>
+    <div ng-controller="ItemController">
+        <!-- Dropdown to select item category -->
+        <select ng-model="selectedCategory" ng-change="loadItemNames()">
+            <option value="">Select Category</option>
+            <option ng-repeat="category in categories" value="{{category}}">{{category}}</option>
+        </select>
+
+        <!-- Display item information for the selected category -->
+        <div ng-if="selectedCategory">
+            <h3>Items in Category: {{selectedCategory}}</h3>
+            <ul>
+                <li ng-repeat="item in filteredItems">
+                    ID: {{ item.id }}, Name: {{ item.name }}, Category: {{ item.category }}, Price: {{ item.price }}
+                </li>
+            </ul>
+        </div>
+    </div>
+
+
+
+<script>
+    angular.module('itemApp', [])
+    .controller('ItemController', function($scope) {
+        $scope.categories = ['Electronics', 'Clothing', 'Books'];
+        $scope.items = [
+            { id: 1, name: 'Item 1', category: 'Electronics', price: 100 },
+            { id: 2, name: 'Item 2', category: 'Clothing', price: 50 },
+            { id: 3, name: 'Item 3', category: 'Books', price: 20 },
+            { id: 4, name: 'Item 4', category: 'Electronics', price: 120 },
+            // Add more items as needed
+        ];
+
+        $scope.loadItemNames = function() {
+            $scope.filteredItems = $scope.items.filter(function(item) {
+                return item.category === $scope.selectedCategory;
+            });
+        };
+    });
+
+</script>
+
+
+
+
+
+
+
+
+
+
+</body>
+</html>
